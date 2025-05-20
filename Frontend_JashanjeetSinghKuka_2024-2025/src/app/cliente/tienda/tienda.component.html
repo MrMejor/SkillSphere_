@@ -11,7 +11,7 @@
     <div class="centered-column">
       <div *ngFor="let post of posts" class="post-card">
         <div class="post-header">
-          <p class="seller">{{ post.teacherUsername }}</p>
+          <p class="seller">{{ post.sellerUsername }}</p>
           <p class="date">{{ post.createdAt | date:'mediumDate' }}</p>
         </div>
 
@@ -35,7 +35,7 @@
               ♥ {{ post.likes }}
             </button>
             <button (click)="toggleComments(post)">
-              💬 {{ post.comments.length }}
+              💬 {{ post.commentCount }}
             </button>
             <button (click)="viewPost(post)">
               👁️ View
@@ -48,7 +48,7 @@
 
           <div *ngIf="post.showComments" class="comments-section">
             <div *ngFor="let comment of post.comments" class="comment">
-              <strong>{{ comment.user }}</strong>: {{ comment.text }}
+              <strong>{{ comment.username }}</strong>: {{ comment.text }}
             </div>
             
             <div class="add-comment">

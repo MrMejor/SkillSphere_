@@ -47,6 +47,8 @@ export class TiendaComponent implements OnInit {
     this.isLoading = true;
     this.error = null;
 
+    const username = this.userStateService.getUsername();
+
     this.postService.getPosts().subscribe({
       next: (data) => {
         this.posts = data.map(post => ({
@@ -59,16 +61,29 @@ export class TiendaComponent implements OnInit {
         }));
         
         // Check like status for each post if user is logged in
-        if (this.currentUserId) {
-          this.posts.forEach(post => {
-            this.postService.checkIfLiked(post.id, this.currentUserId!).subscribe({
-              next: (isLiked) => {
-                post.isLiked = isLiked;
-              },
-              error: (err) => console.error('Error checking like status:', err)
-            });
+        // if (this.currentUserId) {
+        //   this.posts.forEach(post => {
+        //     this.postService.checkIfLiked(post.id, this.currentUserId!).subscribe({
+        //       next: (isLiked) => {
+        //         post.isLiked = isLiked;
+        //       },
+        //       error: (err) => console.error('Error checking like status:', err)
+        //     });
+        //   });
+        // }
+
+      // Check like status if username exists
+      if (username) {
+        this.posts.forEach(post => {
+          this.postService.checkIfLiked(post.id, username).subscribe({
+            next: (isLiked) => {
+              console.log(`Post ID: ${post.id}, isLiked:`, isLiked); 
+              post.isLiked = isLiked;
+            },
+            error: (err) => console.error(`Error checking like status for post ${post.id}:`, err)
           });
-        }
+        });
+      }
         
         this.isLoading = false;
       },
@@ -98,7 +113,7 @@ export class TiendaComponent implements OnInit {
   //   });
   // }
 
-// tienda.component.ts
+
 toggleLike(post: any): void {
   const username = this.userStateService.getUsername();
   if (!username) {
@@ -118,6 +133,15 @@ toggleLike(post: any): void {
   });
 }
 
+  // try Is liked
+  // checkIfLikedByUsername(postId: number, username: string): Observable<boolean> {
+  //   return this.http.get<boolean>(
+  //     `${this.apiUrl}/likes/check/${postId}/${username}`,
+  //     { headers: this.getHeaders() }
+  //   );
+  // }
+  
+  
   toggleComments(post: any): void {
     post.showComments = !post.showComments;
     if (post.showComments && post.comments.length === 0) {
@@ -134,7 +158,9 @@ toggleLike(post: any): void {
   }
 
   addComment(post: any, commentText: string): void {
-    if (!this.currentUserId) {
+    const username = this.userStateService.getUsername();
+    
+    if (!username) {
       this.popupService.showMessage('Error', 'Please login to comment', 'error');
       return;
     }
@@ -143,7 +169,7 @@ toggleLike(post: any): void {
       const commentData = {
         text: commentText,
         postId: post.id,
-        userId: this.currentUserId
+        username: username
       };
   
       this.postService.addComment(commentData).subscribe({
@@ -158,6 +184,7 @@ toggleLike(post: any): void {
       });
     }
   }
+  
 
   viewPost(post: any): void {
     const userRole = this.userStateService.getRole();

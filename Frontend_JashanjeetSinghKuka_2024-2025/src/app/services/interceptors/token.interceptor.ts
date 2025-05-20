@@ -4,23 +4,6 @@ import {inject} from '@angular/core';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
 
-  /*
-
-  a = {
-  name: camilo
-  }
-  {...a, age: 27}
-
-
-  header = {
-  'Content-Type': 'application/json',
-  }
-  {
-  ...header,
-  'Authentication': 'Bearer ' + accessToken -> if accessToken
-  }
-
-   */
 
   const tokenService = inject(TokenService);
   const accessToken = tokenService.getAccessToken();
@@ -28,7 +11,9 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const cloneReq = req.clone({
     setHeaders: {
       'Content-Type': 'application/json',
-      ...(accessToken ? {'Authentication': 'Bearer ' + accessToken} : undefined)
+      // ...(accessToken ? {'Authentication': 'Bearer ' + accessToken} : undefined)
+      // ...(accessToken ? {'Authentication': 'Bearer ' + accessToken} : {})
+      ...(accessToken ? {'Authorization': 'Bearer ' + accessToken} : {})
     }
   });
 

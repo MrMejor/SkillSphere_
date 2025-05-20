@@ -1,71 +1,72 @@
 header {
   height: 70px;
-  z-index: 1000; /* Ensure header is above other content */
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .clickable {
+    cursor: pointer;
+  }
 
   .imagen-perfil {
     width: 38px;
     height: 38px;
-    cursor: pointer;
+    position: relative;
 
     span {
       width: 13px;
       height: 13px;
-      display: block;
-      z-index: 2;
-      bottom: -3px;
-      right: 0;
       background-color: lightgreen;
       border-color: green !important;
+      bottom: -3px;
+      right: 0;
+      position: absolute;
     }
   }
 
   .user-profile-container {
     width: 250px;
-    z-index: 1001; /* Ensure dropdown is above other content */
-    margin-top: 0.5rem;
+    right: 0;
+    z-index: 1001;
     padding: 1rem;
-
-    .user-info {
-      p {
-        margin: 0.5rem 0;
-        font-size: 0.875rem;
-      }
+    h2{
+      color: #000;
     }
-  }
-
-  .notify {
-    width: 18px;
-    height: 18px;
-    z-index: 2;
-    background-color: red;
-    right: -6px;
-    top: -3px;
+    p {
+      font-size: 0.875rem;
+      color: #939393;
+      margin: 0.25rem 0;
+    }
   }
 
   .search-container {
-    input::placeholder {
-      color: #939393;
+    position: relative;
+
+    input {
+      border-radius: 50px;
+      padding-left: 2rem;
+
+      &::placeholder {
+        color: #939393;
+      }
     }
 
-    .icon-search {
-      left: 5px;
-      z-index: 2;
-      top: 0;
-      bottom: 0;
-    }
-  }
-
-  .icon-list-container {
     i {
-      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 10px;
     }
   }
 
-  .logo-container {
-    padding: 0 10px 0 60px;
-
-    img {
-      width: 75px;
-    }
+  .notification-dropdown {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    z-index: 1002;
   }
 }

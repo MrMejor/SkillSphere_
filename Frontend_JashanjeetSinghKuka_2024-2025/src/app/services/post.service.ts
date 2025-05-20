@@ -10,8 +10,8 @@ import { TokenService } from './auth/token.service';
 })
 export class PostService {
   private apiUrl = `${environment.apiUrl}/posts`;
-  private likeUrl = `${environment.apiUrl}/api/likes`;
-  private commentUrl = `${environment.apiUrl}/api/comments`;
+  private likeUrl = `${environment.apiUrl}/likes`;
+  private commentUrl = `${environment.apiUrl}/comments`;
 
   constructor(private http: HttpClient,
     private tokenService: TokenService
@@ -97,15 +97,23 @@ toggleLike(postId: number, username: string): Observable<any> {
   // Comment Operations
   getComments(postId: number): Observable<CommentInterface[]> {
     return this.http.get<CommentInterface[]>(
-      `${environment.apiUrl}/api/comments/post/${postId}`
+      `${environment.apiUrl}/comments/post/${postId}`
     );
   }
 
-  addComment(commentData: CreateCommentInterface): Observable<CommentInterface> {
-    return this.http.post<CommentInterface>(
-      `${environment.apiUrl}/api/comments`,
+  // addComment(commentData: CreateCommentInterface): Observable<CommentInterface> {
+  //   return this.http.post<CommentInterface>(
+  //     `${environment.apiUrl}/comments`,
+  //     commentData,
+  //     { headers: this.getHeaders() }
+  //   );
+  // }
+  addComment(commentData: { postId: number, username: string, text: string }) {
+    return this.http.post<Comment>(
+      `${this.commentUrl}/add`,
       commentData,
       { headers: this.getHeaders() }
     );
   }
+  
 }

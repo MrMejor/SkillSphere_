@@ -1,54 +1,54 @@
-<header class="row align-items-center bg-dark position-sticky top-0 px-4 m-auto">
-  <div class="col-6 d-flex flex-row align-items-center column-gap-3">
-    <!-- Profile Image -->
-    <div class="position-relative">
-      <div class="imagen-perfil position-relative rounded-circle bg-white d-flex align-items-center justify-content-center clickable" (click)="toggleItem('isActiveProfile')">
-        <i class="bi bi-person-fill text-black fs-4"></i>
-        <span class="rounded-circle border border-2 position-absolute"></span>
-      </div>
-      <!-- Profile Dropdown -->
-      <div class="user-profile-container bg-white shadow rounded-3 p-4 position-absolute start-0 mt-2" *ngIf="isActiveItems.isActiveProfile">
-        <h2 class="h5 mb-3">Mi Perfil</h2>
-        <div class="user-info">
-          <p><strong>Nombre de usuario:</strong> {{ user.username }}</p>
-          <p><strong>Nombre:</strong> {{ user.firstName }} {{ user.lastName }}</p>
-          <p><strong>Rol:</strong> {{ user.role }}</p>
-        </div>
-      </div>
-    </div> <!-- fin-imagen-perfil -->
+<header class="navbar bg-dark text-white px-4 position-sticky top-0 w-100 z-1000">
+  <!-- Left Section: Brand + Search -->
+  <div class="d-flex align-items-center gap-4 flex-shrink-0">
+    <span class="fs-4 fw-bold text-white">SkillSphere</span>
 
+    <div class="search-container position-relative d-none d-md-block">
+      <i class="bi bi-search position-absolute start-0 top-50 translate-middle-y ps-2 text-dark"></i>
+      <input type="text" class="form-control ps-5" placeholder="Buscar...">
+    </div>
+  </div>
+
+  <!-- Center Section: Navigation Icons -->
+  <div class="d-flex align-items-center gap-4 ms-4 flex-grow-1 justify-content-start">
+    <i class="bi bi-house fs-4 clickable" (click)="navigateToAllProduct()" title="Inicio"></i>
+    <i class="bi bi-cart fs-4 clickable" (click)="navigateToCart()" title="Carrito"></i>
+    <i class="bi bi-plus fs-4 clickable" (click)="navigateToAddProduct()" title="Agregar Producto"></i>
+  </div>
+
+  <!-- Right Section: Notifications & Profile -->
+  <div class="d-flex align-items-center gap-4">
     <!-- Notifications -->
     <div class="position-relative">
-      <i class="bi bi-bell-fill text-white fs-5" (click)="toggleItem('isActiveNotification')"></i>
-      <span class="position-absolute notify rounded-circle small d-flex align-items-center justify-content-center text-white">1</span>
+      <i class="bi bi-bell-fill fs-4 clickable" (click)="toggleItem('isActiveNotification')"></i>
+      <span class="position-absolute top-0 end-0 translate-middle badge bg-danger">1</span>
       <div class="notification-dropdown" *ngIf="isActiveItems.isActiveNotification">
         <app-tab-notification></app-tab-notification>
       </div>
-    </div> <!-- fin-notificaciones -->
+    </div>
 
-    <!-- Grid Menu -->
-    <div>
-      <i class="bi bi-grid-3x3-gap-fill text-white fs-5"></i>
-    </div> <!-- fin-menu-cuadrado -->
+    <!-- Profile -->
+    <div class="position-relative">
+      <div class="imagen-perfil rounded-circle bg-white d-flex align-items-center justify-content-center clickable"
+        (click)="toggleItem('isActiveProfile')">
+        <i class="bi bi-person-fill text-black fs-4"></i>
+        <span class="rounded-circle border border-2 position-absolute"></span>
+      </div>
 
-    <!-- Settings -->
-    <div>
-      <i class="bi bi-gear-fill text-white fs-5" (click)="toggleItem('isActiveSettings')"></i>
-    </div> <!-- fin-ajustes -->
-  </div>
+      <div class="user-profile-container bg-white shadow rounded-3 p-4 position-absolute end-0 mt-2"
+        *ngIf="isActiveItems.isActiveProfile">
+        <h2 class="h6">Mi Perfil</h2>
+        <p><strong>Usuario:</strong> {{ user.username }}</p>
+        <p><strong>Nombre:</strong> {{ user.firstName }} {{ user.lastName }}</p>
+        <p><strong>Rol:</strong> {{ user.role }}</p>
 
-  <div class="col-6 d-flex flex-row align-items-center justify-content-end py-3 column-gap-3">
-    <!-- Search Bar -->
-    <div class="position-relative rounded-pill overflow-hidden search-container">
-      <i class="bi bi-search position-absolute icon-search bg-white d-flex align-items-center justify-content-center"></i>
-      <input type="text" class="form-control w-100 text-end" placeholder="Buscar..">
-    </div> <!-- // fin-buscador -->
+        <hr />
 
-    <!-- Menu Icon -->
-    <div class="icon-list-container">
-      <i class="bi bi-list text-white fs-5" (click)="toggleLogo()"></i>
-    </div> <!-- // fin-menu -->
+        <button class="btn btn-outline-primary btn-sm w-100 mb-2"
+          (click)="navigateToChangePassword(); closeProfileDropdown()">Cambiar contraseña</button>
+        <button class="btn btn-outline-danger btn-sm w-100"
+          (click)="closeSession(); closeProfileDropdown()">Cerrar sesión</button>
+      </div>
+    </div>
   </div>
 </header>
-
-<app-settings *ngIf="isActiveItems.isActiveSettings"></app-settings>
